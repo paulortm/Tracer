@@ -1,15 +1,11 @@
 package ist.meic.pa;
 
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
 import javassist.NotFoundException;
 import javassist.tools.reflect.Loader;
 
@@ -34,6 +30,7 @@ public class TraceVM {
 		} catch (NotFoundException e1) {
 			new RuntimeException(e1);
 		}
+		loader.addTranslator(cp, new TraceTranslator( new TracingEditor()));
 		
 		loader.run(mainClass, removeFirstElm(args));
 	}
