@@ -1,5 +1,6 @@
 package ist.meic.pa;
 
+import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
@@ -10,40 +11,38 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.NotFoundException;
+import javassist.tools.reflect.Loader;
 
 public class TraceVM {
-	public static void main(String args[]) {
+	
+	public static PrintStream out = System.err;
+	
+	public static void main(String args[]) throws Throwable {
 		String mainClass = args[0];
 		List<String> mainArgs = new LinkedList<String>();
 		for(int i = 1; i < args.length; i++) {
 			mainArgs.add(args[i]);
 		}
-        ClassPool cp = ClassPool.getDefault();
         
-        callMain(cp, mainClass, mainArgs);
+		// add translators
+		ClassPool cp = ClassPool.getDefault();
+		Loader loader = null;
+		try {
+			loader = new Loader();
+		} catch (CannotCompileException e) {
+			new RuntimeException(e);
+		} catch (NotFoundException e1) {
+			new RuntimeException(e1);
+		}
+		
+		loader.run(mainClass, removeFirstElm(args));
 	}
 	
-	public static void callMain(ClassPool cp, String mainClass, List<String> mainArgs) {
-        try {
-        	System.out.println("run main of " + mainClass);
-	        CtClass cc = cp.get(mainClass);
-	        Class c = cc.toClass();
-	        Method main = c.getMethod("main", String[].class);
-	        main.invoke(null, (Object)mainArgs.toArray());
-        } catch (NotFoundException e) {
-			throw new RuntimeException(e);
-		} catch (CannotCompileException e) {
-			throw new RuntimeException(e);
-		} catch (NoSuchMethodException e) {
-			throw new RuntimeException(e);
-		} catch (SecurityException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException(e);
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e);
+	public static String[] removeFirstElm(String[] array) {
+		List<String> newArrayLst = new LinkedList<String>();
+		for(int i = 1; i < array.length; i++) {
+			newArrayLst.add(array[i]);
 		}
+		return newArrayLst.toArray(new String[array.length-1]);
 	}
 }
