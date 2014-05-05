@@ -18,10 +18,21 @@ public class TracingEditor extends ExprEditor {
 		}
 	}
 	
+	public void edit(ConstructorCall call) {
+		try {
+			call.replace("{"
+					+ "$_ = $proceed($$);"
+					+ "System.out.println(\"" + call.getClassName() + "\");"
+					+ "}");
+		} catch (CannotCompileException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public void edit(MethodCall call) {
 		try {
 			call.replace("{"
-					+ "System.out.println($0 + \"." + call.getMethodName() + "\");"
+					+ "System.out.println(\"" + call.getSignature() + "\");"
 					+ "$_ = $proceed($$);"
 					+ "}"
 			);
