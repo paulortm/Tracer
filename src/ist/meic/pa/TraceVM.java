@@ -25,6 +25,8 @@ public class TraceVM {
 		Loader loader = null;
 		try {
 			loader = new Loader();
+			loader.delegateLoadingOf(Trace.class.getName());
+			loader.delegateLoadingOf(History.class.getName());
 		} catch (CannotCompileException e) {
 			new RuntimeException(e);
 		} catch (NotFoundException e1) {
