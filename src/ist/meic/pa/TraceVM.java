@@ -42,4 +42,8 @@ public class TraceVM {
 		}
 		return newArrayLst.toArray(new String[array.length-1]);
 	}
+	
+	public static void println(String msg) {
+		out.println(msg);
+	}
 }
