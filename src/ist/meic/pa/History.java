@@ -1,9 +1,16 @@
 package ist.meic.pa;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import javassist.CtClass;
+import javassist.NotFoundException;
+import javassist.expr.MethodCall;
+import javassist.expr.NewExpr;
 
 
 public class History {	
@@ -11,24 +18,21 @@ public class History {
 
 	private static  Map<Object,List<String>> mapObjHistory = new HashMap<Object,List<String>>();
 		
-	// devolve o histórico do objecto
+	// devolve o histÃ³rico do objecto.
+	// se obj == null entÃ£o devolve uma lista vazia
 	public static List<String> objectHistory(Object obj){
 		
-		if(obj!= null)
-		  if (mapObjHistory.containsKey(obj)){
-			  List<String> historyObj = mapObjHistory.get(obj); 
-			   return historyObj;
-		   }else{ 
-			   //lança exception null object exception
-			   System.err.println("Chave não existe"); 
-		   }	 
-		return null;	
+		if(obj!= null && mapObjHistory.containsKey(obj)) {
+			List<String> historyObj = mapObjHistory.get(obj); 
+			return historyObj;
+		}
+		return new LinkedList<String>();	
 	}
 
-	// adiciona uma linha ao historico do objecto
+	// Adiciona uma linha ao historico do objecto.
+	// SÃ³ adiciona se obj != null
 	public static void addObjHistory(Object obj, String entry){
-		
-		if(obj !=null && entry != ""){		
+		if(obj != null){		
 		  if (mapObjHistory.containsKey(obj))  
 			  mapObjHistory.get(obj).add(entry);		  
 		  else{
@@ -36,9 +40,21 @@ public class History {
 			  listHistory.add(entry);
 			  mapObjHistory.put(obj,listHistory);
 		  }		
-	   }else{
-		  //lança exception null object 
-		  System.err.println("Chave não existe"); 
 	   }			
+	}
+	
+	private static void logObjectReturned(Object obj ,String signature) {
+		addObjHistory(obj, "<-"+ signature);
+	}
+	
+	private static void logPassedObject(Object obj, String signature) {
+		addObjHistory(obj, "->" + signature);
+	}
+	
+	public static void logMethodCall(Object result, String signature, Object[] args) {
+		logObjectReturned(result, signature);
+		for(int i = 0; i < args.length; i++) {
+			logPassedObject(args[i], signature);
+		}
 	}
 }
