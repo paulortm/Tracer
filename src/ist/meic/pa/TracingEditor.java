@@ -11,6 +11,8 @@ import javassist.expr.NewExpr;
 
 public class TracingEditor extends ExprEditor {
 	
+	// Print a string with the parameter types of the 'behavior'.
+	// Used by signatureOf.
 	private static String argTypes(CtBehavior behavior) throws NotFoundException {
 		String result = "(";
 		CtClass[] parameterTypes = behavior.getParameterTypes();
@@ -27,8 +29,8 @@ public class TracingEditor extends ExprEditor {
 	private static String signatureOf(MethodCall call) {
 		String signature;
 		try {
-			signature = call.getMethod().getName();	
-			signature += argTypes(call.getMethod());
+			signature = call.getClassName() + "." + call.getMethod().getName();	
+			signature += argTypes(call.getMethod()) + " on " + call.getFileName() + ":" + call.getLineNumber();
 		} catch (NotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -39,7 +41,7 @@ public class TracingEditor extends ExprEditor {
 		String signature;
 		try {
 			signature = call.getClassName();
-			signature += argTypes(call.getConstructor());
+			signature += argTypes(call.getConstructor()) + " on " + call.getFileName() + ":" + call.getLineNumber();
 		} catch (NotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -49,8 +51,9 @@ public class TracingEditor extends ExprEditor {
 	public void edit(NewExpr call) {
 		try {
 			call.replace("{"
+					+ "ist.meic.pa.History.logMethodCall(\"" + signatureOf(call) + "\",($w)$args);"
 					+ "$_ = $proceed($$);"
-					+ "ist.meic.pa.History.logMethodCall(($w)$_, \"" + signatureOf(call) + "\",($w)$args);"
+					+ "ist.meic.pa.History.logReturn(\"" + signatureOf(call) + "\",($w)$_);"
 					+ "}"
 			);
 		} catch (CannotCompileException e) {
@@ -61,8 +64,9 @@ public class TracingEditor extends ExprEditor {
 	public void edit(MethodCall call) {
 		try {
 			call.replace("{"
+					+ "ist.meic.pa.History.logMethodCall(\"" + signatureOf(call) + "\",($w)$args);"
 					+ "$_ = $proceed($$);"
-					+ "ist.meic.pa.History.logMethodCall(($w)$_, \"" + signatureOf(call) + "\",($w)$args);"
+					+ "ist.meic.pa.History.logReturn(\"" + signatureOf(call) + "\",($w)$_);"
 					+ "}"
 			);
 		} catch (CannotCompileException e) {

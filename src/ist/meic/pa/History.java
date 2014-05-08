@@ -51,10 +51,13 @@ public class History {
 		addObjHistory(obj, "->" + signature);
 	}
 	
-	public static void logMethodCall(Object result, String signature, Object[] args) {
-		logObjectReturned(result, signature);
+	public static void logMethodCall(String signature, Object[] args) {
 		for(int i = 0; i < args.length; i++) {
 			logPassedObject(args[i], signature);
 		}
+	}
+	
+	public static void logReturn(String signature, Object returned) {
+		logObjectReturned(returned, signature);
 	}
 }
