@@ -4,23 +4,22 @@ import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
-import javassist.Translator;
 
 /**
  * Translator that adds tracing code to the loaded classes code.
- *
+ * 
  */
 public class TraceTranslator implements javassist.Translator {
-	
+
 	private TracingEditor tracingEditor;
-	
+
 	public TraceTranslator(TracingEditor tracingEditor) {
 		this.tracingEditor = tracingEditor;
 	}
 
 	@Override
-	public void onLoad(ClassPool cp, String className) throws NotFoundException,
-			CannotCompileException {
+	public void onLoad(ClassPool cp, String className)
+			throws NotFoundException, CannotCompileException {
 		CtClass clazz = cp.get(className);
 		clazz.instrument(this.tracingEditor);
 	}
@@ -29,7 +28,7 @@ public class TraceTranslator implements javassist.Translator {
 	public void start(ClassPool arg0) throws NotFoundException,
 			CannotCompileException {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }
