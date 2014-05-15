@@ -6,8 +6,13 @@ public class Trace {
 
 	static public void print(Object object) {
 		List<String> objHist = History.objectHistory(object);
-		for (String histEntry : objHist) {
-			TraceVM.println(histEntry);
+		if(objHist.isEmpty()) {
+			TraceVM.println("Tracing for "+ object +" is nonexistent!");
+		} else {
+			TraceVM.println("Tracing for " + object);
+			for (String histEntry : objHist) {
+				TraceVM.println(histEntry);
+			}
 		}
 	}
 

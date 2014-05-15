@@ -36,11 +36,11 @@ public class History {
 	}
 
 	private static void logObjectReturned(Object obj, String signature) {
-		addObjHistory(obj, "<-" + signature);
+		addObjHistory(obj, "  <- " + signature);
 	}
 
 	private static void logPassedObject(Object obj, String signature) {
-		addObjHistory(obj, "->" + signature);
+		addObjHistory(obj, "  -> " + signature);
 	}
 
 	public static void logMethodCall(String signature, Object[] args) {

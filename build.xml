@@ -1,0 +1,61 @@
+<project name="Tracer" default="build" basedir=".">
+
+    <!-- properties and paths -->
+    
+    <property name="src.dir" location="src" />
+    <property name="build.dir" location="build" />
+    <property name="build.classes.dir" location="${build.dir}/classes" />
+    <property name="jar.name" value="tracer.jar"/>
+
+
+    <!-- targets -->
+
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>
+    </target>
+
+    <target name="clean" 
+        description="Delete build directory">
+        <delete dir="${build.dir}" failonerror="false" deleteonexit="true" />
+        <delete file="inspector.jar" failonerror="false" deleteonexit="true" />
+    </target>
+
+    <target name="compile" depends="init" 
+        description="Compile program">
+        <javac srcdir="${src.dir}"
+            destdir="${build.classes.dir}">
+                
+		    <classpath>
+			    <fileset dir="lib">
+			        <include name="**/*.jar"/>
+			    </fileset>
+		    </classpath>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile" 
+        description="Creates the ${jar.name}.jar">
+        <jar destfile="${jar.name}"
+            basedir="${build.classes.dir}">
+        </jar>
+    </target>
+
+    <target name="build" depends="jar" 
+        description="Build project" />
+
+    <target name="rebuild" depends="clean,build" />
+    
+    <target name="run" depends="jar">
+        <java classname="ist.meic.pa.TraceVM">
+            <arg line="Test"/>
+             <classpath>
+			    <fileset dir="lib">
+			        <include name="**/*.jar"/>
+			        <include name="../${jar.name}"/>
+			    </fileset>
+		    </classpath>
+        </java>
+    </target>
+
+</project>
