@@ -68,6 +68,19 @@ public class History {
 	}
 	
 	public static void logCatch(Object exception, Class<?> type, String sourceInfo) {
-		addObjHistory(exception, "  <- catch(" + type.getName() + ")" + sourceInfo );
+		addObjHistory(exception, "     catch(" + type.getName() + ")" + sourceInfo );
+	}
+	
+	public static void logCast(Object original, Class<?> castType, String sourceInfo) {
+		addObjHistory(original,  "     (" + castType.getName() + ")" + original.getClass().getName() + sourceInfo);
+	}
+	
+	public static void logNewArray(Object array, Class<?> arrayType, Object[] dimentions, String srouceInfo ) {
+		String dimString = " ";
+		for(int i = 0; i < dimentions.length; i++) {
+			dimString += "[" + dimentions[i] + "]";
+		}
+		
+		logObjectReturned(array, arrayType.getName() + dimString + srouceInfo);
 	}
 }
