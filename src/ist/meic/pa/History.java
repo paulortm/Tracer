@@ -66,4 +66,8 @@ public class History {
 			}
 		}
 	}
+	
+	public static void logCatch(Object exception, Class<?> type, String sourceInfo) {
+		addObjHistory(exception, "  <- catch(" + type.getName() + ")" + sourceInfo );
+	}
 }
