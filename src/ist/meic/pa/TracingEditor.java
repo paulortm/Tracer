@@ -4,6 +4,7 @@ import javassist.CannotCompileException;
 import javassist.CtBehavior;
 import javassist.CtClass;
 import javassist.NotFoundException;
+import javassist.expr.Expr;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 import javassist.expr.NewExpr;
@@ -25,11 +26,15 @@ public class TracingEditor extends ExprEditor {
 		return result;
 	}
 	
+	protected static String sourceInfo(Expr expr) {
+		return " on " + expr.getFileName() + ":" + expr.getLineNumber();
+	}
+	
 	private static String signatureOf(MethodCall call) {
 		String signature;
 		try {
 			signature = call.getClassName() + "." + call.getMethod().getName();	
-			signature += argTypes(call.getMethod()) + " on " + call.getFileName() + ":" + call.getLineNumber();
+			signature += argTypes(call.getMethod()) + sourceInfo(call);
 		} catch (NotFoundException e) {
 			throw new RuntimeException(e);
 		}
@@ -40,7 +45,7 @@ public class TracingEditor extends ExprEditor {
 		String signature;
 		try {
 			signature = call.getClassName();
-			signature += argTypes(call.getConstructor()) + " on " + call.getFileName() + ":" + call.getLineNumber();
+			signature += argTypes(call.getConstructor()) + sourceInfo(call);
 		} catch (NotFoundException e) {
 			throw new RuntimeException(e);
 		}

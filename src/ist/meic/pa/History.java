@@ -52,4 +52,18 @@ public class History {
 	public static void logReturn(String signature, Object returned) {
 		logObjectReturned(returned, signature);
 	}
+	
+	public static void logFieldAccess(Object target, Object read, Object[] args, String signature, String sourceInfo) {
+		// ignore static fields
+		if(target != null) {
+			if(args.length == 1) {
+				// write
+				logPassedObject(args[0], signature + " = " + args[0].getClass().getName() + sourceInfo);
+			}
+			if(read != null) {
+				// read
+				logObjectReturned(read, signature + sourceInfo);
+			}
+		}
+	}
 }

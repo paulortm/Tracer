@@ -4,6 +4,7 @@ import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
+import javassist.expr.ExprEditor;
 
 /**
  * Translator that adds tracing code to the loaded classes code.
@@ -11,9 +12,9 @@ import javassist.NotFoundException;
  */
 public class TraceTranslator implements javassist.Translator {
 
-	private TracingEditor tracingEditor;
+	private ExprEditor tracingEditor;
 
-	public TraceTranslator(TracingEditor tracingEditor) {
+	public TraceTranslator(ExprEditor tracingEditor) {
 		this.tracingEditor = tracingEditor;
 	}
 
@@ -27,8 +28,7 @@ public class TraceTranslator implements javassist.Translator {
 	@Override
 	public void start(ClassPool arg0) throws NotFoundException,
 			CannotCompileException {
-		// TODO Auto-generated method stub
-
+		// empty
 	}
 
 }

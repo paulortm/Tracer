@@ -10,11 +10,11 @@ import javassist.NotFoundException;
 import javassist.expr.ExprEditor;
 import javassist.tools.reflect.Loader;
 
-public class TraceVM {
+public abstract class TraceVM {
 
 	public static PrintStream out = System.err;
 
-	public static void main(String args[]) throws Throwable {
+	public static void main(String args[]) {
 		Loader loader = createLoader();
 		loader.delegateLoadingOf(Trace.class.getName());
 		loader.delegateLoadingOf(History.class.getName());
@@ -43,7 +43,7 @@ public class TraceVM {
 		ClassPool cp = ClassPool.getDefault();
 		
 		try {
-			loader.addTranslator(cp, new TraceTranslator(new TracingEditor()));
+			loader.addTranslator(cp, new TraceTranslator(editor));
 			loader.run(mainClass, removeFirstElm(args));
 		} catch (NotFoundException e) {
 			throw new RuntimeException(e);
