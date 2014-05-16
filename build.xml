@@ -1,218 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Tracer" basedir="." default="create-jar">
+
+    <property name="src.dir" location="src" />
+    <property name="classes.dir" location="classes" />
+    <property name="lib.dir" location="lib" />
+    <property name="jar.file" location="tracer.jar" />
+
+    <path id="project.classpath">
+        <pathelement location="${classes.dir}" />
+        <fileset dir="${lib.dir}" >  
+            <include name="**/*.jar" />  
+        </fileset> 
+    </path>
 
 
+    <target name="init">
+        <mkdir dir="${classes.dir}" />
+    </target>
 
+    <target name="clean">
+        <delete dir="${classes.dir}" />
+        <delete file="${jar.file}" />
+    </target>
 
+    <target name="compile" depends="clean,init">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" includeantruntime="false" >
+            <classpath>
+                <path refid="project.classpath" />
+            </classpath>
+        </javac>
+    </target>
 
+    <target name="create-jar" depends="compile">
+        <jar destfile="${jar.file}">
+            <fileset dir="${classes.dir}" />
+            <fileset dir="${src.dir}" />
+        </jar>
+    </target>
 
-
-
-
-
-
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>T&eacute;cnico Lisboa</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" type="text/css" media="screen" href="/css/webpages.css"/>
-<script type="text/javascript" src="/js/mootools-1.2-core-nc.js"></script>
-<script type="text/javascript" src="/js/mootools-1.2-more.js"></script>
-<!--
-<script src="../js/mootools-release-1.11.js" type="text/javascript"></script>
--->
-<script type="text/javascript">
-<!--
-	if(top.location!=location)
-	top.location=location;
-// -->
-</script>
-
-<script type="text/javascript" language="JavaScript">
-<!--
-
-	window.addEvent('domready', function(){
-	        var focusControl = document.forms[0].elements["username"];
-        	if (focusControl.type != "hidden" && !focusControl.disabled) {
-      	          focusControl.focus();
-	        }
-	});
-
-function select_istid(){
-	$("li_istid").addClass("selected");
-	$("li_cc").removeClass("selected");
-	$("li_kerberos").removeClass("selected");
-	$("li_stork").removeClass("selected")
-	$("div_istid").style.display="block";
-	$("div_cc").style.display="none";
-	$("div_kerberos").style.display="none";
-        $("div_stork").style.display="none";	
-}
-
-function select_cc(){
-	$("li_istid").removeClass("selected");
-	$("li_cc").addClass("selected");
-	$("li_kerberos").removeClass("selected");
-	$("li_stork").removeClass("selected")
-	$("div_istid").style.display="none";
-	$("div_cc").style.display="block";
-	$("div_kerberos").style.display="none";
-        $("div_stork").style.display="none";	
-}
-
-function select_kerberos(){
-	$("li_istid").removeClass("selected");
-	$("li_cc").removeClass("selected");
-	$("li_kerberos").addClass("selected");
-	$("li_stork").removeClass("selected");
-	$("div_istid").style.display="none";
-	$("div_cc").style.display="none";
-	$("div_kerberos").style.display="block";
-        $("div_stork").style.display="none";
-}
-
-function select_stork(){
-	$("li_istid").removeClass("selected");
-	$("li_cc").removeClass("selected");
-	$("li_kerberos").removeClass("selected");
-	$("li_stork").addClass("selected");
-	$("div_istid").style.display="none";
-	$("div_cc").style.display="none";
-	$("div_kerberos").style.display="none";
-	$("div_stork").style.display="block";
-}
-
-// -->
-</script>
-
-</head>
-<body>
-
-
-<!-- START HEADER -->
-	<div id="logoist">
-		<h1><a href="http://www.ist.utl.pt">Instituto Superior Técnico</a></h1>
-	</div>
-	<div id="header_links">
-		<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#99;&#105;&#64;&#105;&#115;&#116;&#46;&#117;&#116;&#108;&#46;&#112;&#116;">Help</a> | 
-		<a href="http://www.ist.utl.pt/html/mapadosite/">Site Map</a>
-	</div>
-<!-- END HEADER -->
-
-
-
-<!--START MAIN CONTENT -->
-<div id="container">
-<div id="wrapper" class="login">
-
-	<div class="logo"></div>
-	<div class="sep"></div>
-
-
-
-
-
-<table class="structural mbottom1">
-<tr>
-	<td class="col1"><h2>Login</h2></td>
-        
-
-	
-	<td class="col2"><a href="login?service=https%3A%2F%2Ffenix.tecnico.ulisboa.pt%2FdownloadFile%2F3779580657275%2Fbuild.xml&locale=pt">PT</a> | <a href="login?service=https%3A%2F%2Ffenix.tecnico.ulisboa.pt%2FdownloadFile%2F3779580657275%2Fbuild.xml&locale=en">EN</a></td>
-
-</tr>
-</table>
-
-	<ul class="tabs">
-		<li id='li_istid' class="selected"><a href="#" onClick='javascript: select_istid();'>IST ID</a></li>
-		<li id='li_cc'><a href="#" onClick='javascript: select_cc();'>Citizen Card</a></li>
-		<li id='li_kerberos'><a href="#" onClick='javascript: select_kerberos();'>Kerberos</a></li>
-		<li id='li_stork'><a href="#" onClick='javascript: select_stork();'>European e-ID</a></li>
-	</ul>
-	<div style="clear: both; padding: 0; margin: 0;"></div>
-
-	<div class="box">
-	<div id='div_istid'>
-
-
-	
-<p>To proceed you need to identify yourself with IST's central authentication service. Please provide your credentials.</p>
-
-
-
-<form id="fm1" class="fm-v clearfix" method="post" action="/cas/login;jsessionid=C8607F83B0BC458257438D1D6059A8E4?service=https%3A%2F%2Ffenix.tecnico.ulisboa.pt%2FdownloadFile%2F3779580657275%2Fbuild.xml">
-
-<div class="login_form">	
-	<p class="mbottom015"><label>IST ID</label></p>
-	<input class="inputtext" id="username" name="username" accesskey="n" tabindex="1" type="text" size="25"/>
-	
-	<p class="mtop05 mbottom015"><label>Password</label></p>
-	<input class="inputtext" id="password" name="password" tabindex="2" type="password" size="25"/>
-	
-	<p class="button"><input name="submit" type="submit" value="Login" tabindex="3"  class="login"/></p>
-	
-	<input type="hidden" name="lt" value="_c2902B567-C509-E31C-FA33-B6362DD3F518_k3B126EE0-690B-5CED-66A5-A2595842F6BB" />
-    <input type="hidden" name="_eventId" value="submit" />
-
- 
-</div>
-
-</form>
-<p class="mbottom2 links">
-	<a href="https://suportedsi.ist.utl.pt/faq/como-e-que-uma-pessoa-externa-ou-convidada-pode-ter-acesso-temporario-aos-servicos-informaticos">I don't have an IST ID</a> | 
-	<a href="/password/recover.php">Recover password</a>
-</p>
-	</div>
-
-
-	<div id='div_cc'>
-		<p class="mtop12"><img src="/images/cartao05.gif" style="float: left; padding: 0.25em 0.75em 0.25em 0;"/>To login with the Portuguese Citizen Card, you must have a card reader and middleware installed and functioning properly. Press Login after inserting the citizen card in the reader. You can find more information at: <a href="http://www.cartaodecidadao.pt" target="_blank">cartaodecidadao.pt</a></p>
-                <div id="div_cc_error" class="feedback" style="display: none;">The Portuguese Citizen Card login failed. Please make sure that you have a valid card inserted. If you need assistance, please use the Help link to contact us.</div>
-
-		<p class="acenter mtop2"><input type="button" value="Citizen Card Login" onClick="parent.location='https://x509.id.ist.utl.pt/cas/login?service=https%3A%2F%2Ffenix.tecnico.ulisboa.pt%2FdownloadFile%2F3779580657275%2Fbuild.xml&auth=x509'"/></p>
-<p class="mbottom2 links">
-	<a href="https://ciist.ist.utl.pt/servicos/autenticacao_faq.php#cc">Frequently Asked Questions (FAQ)</a> 
-</p>
-	</div>
-
-	<div id='div_kerberos'>
-		<p class="mtop12"><img src="/images/kerberos.png" style="float: left; padding: 0.25em 0.75em 0.25em 0;"/>To login with kerberos you must have the kerberos subsystem functioning correctly on your operating system. You must already have acquired a TGT. To proceed press Login.</p>
-                <div id="div_spnego_error" class="feedback" style="display: none;">The kerberos login failed. Please make sure you have the kerberos subsystem functioning correctly on your operating system and that you have already acquired a valid TGT. If you need assistance, please use the Help link to contact us.</div>
-	  <p class="acenter mtop2"><input type="button" value="Kerberos Login" onClick="parent.location='/cas/login?service=https%3A%2F%2Ffenix.tecnico.ulisboa.pt%2FdownloadFile%2F3779580657275%2Fbuild.xml&auth=spnego'"/></p>
-<p class="mbottom2 links">
-	<a href="https://ciist.ist.utl.pt/servicos/autenticacao_faq.php#kerberos">Frequently Asked Questions (FAQ)</a> 
-</p>
-	</div>
-	
-	<div id='div_stork'>
-		<p class="mtop12"><img src="/images/stork-03.png" style="float: left; padding: 0.25em 0.75em 0.25em 0;"/>To login with your national European e-ID, have your systems ready (card reader, citizen card, software installed). To proceed press the button.</p>
-                <div id="div_stork_error" class="feedback" style="display: none;">The European e-ID login failed. If you need assistance, please use the Help link to contact us.</div>
-	  <p class="acenter mtop2"><input type="button" value="European e-ID Login" onClick="parent.location='/cas/login?service=https%3A%2F%2Ffenix.tecnico.ulisboa.pt%2FdownloadFile%2F3779580657275%2Fbuild.xml&auth=stork'"/></p>
-<p class="mbottom2 links">
-	<a href="https://ciist.ist.utl.pt/servicos/stork_faq.php">Frequently Asked Questions (FAQ)</a> |
-        <a href="https://www.eid-stork.eu/pilots/questionnaires/index.php?sid=68777&lang=en">Feedback</a> 
-</p>
-	</div>
-
-</div>
-
-
-<script type="text/javascript" language="JavaScript">
-<!--
-  select_istid();
-// -->
-</script>
-
-<div class="sep"></div>
-	
-	<div class="footer_warning"> 
-	  <p>Warning: The IST IT department (CIIST) will never ask you for personal details by e-mail.	Please be suspicious of any familiar message asking you for passwords or any other confidential data. Take a look at some examples of <a href="https://ciist.ist.utl.pt/seguranca/phishing.php">forged e-mails</a>.</p><p>The login implies the acceptance of the <a href="https://ciist.ist.utl.pt/normas/#uso">usage standards</a> of IST computer services.</p><p>Before filling any field be sure that the site you're viewing begins with <strong>"https://id.ist.utl.pt"</strong>. <a href="http://dsi.ist.utl.pt/informacao-tecnica/sistema-de-autenticacao-centralizada">More</a>.</p> 
-	</div> 
-
-</div> <!-- #wrapper -->
-</div> <!-- #container -->
-
-
-</body>
-</html>
+</project>
